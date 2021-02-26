@@ -46,6 +46,20 @@ let
           so the keyfile path should usually start with "/mnt-root/".
         '';
       };
+      
+      headerFile = mkOption {
+        default = null;
+        example = "/mnt-root/root/.swapheader";
+        type = types.nullOr types.str;
+        description = ''
+          Path to a file to be used as header for the LUKS device. 
+          At the time this keyfile is accessed, the
+          <literal>neededForBoot</literal> filesystems (see
+          <literal>fileSystems.&lt;name?&gt;.neededForBoot</literal>)
+          will have been mounted under <literal>/mnt-root</literal>,
+          so the path should usually start with "/mnt-root/".
+        '';
+      };
     };
   };
 in
@@ -80,7 +94,7 @@ in
       };
       postMountCommands =
         concatMapStrings (dev:
-          "cryptsetup luksOpen --key-file ${dev.encrypted.keyFile} ${dev.encrypted.blkDev} ${dev.encrypted.label};\n"
+          "cryptsetup luksOpen --key-file ${dev.encrypted.keyFile} ${lib.optionalString (dev.encrypted.headerFile != null) "--header ${dev.encrypted.headerFile}"} ${dev.encrypted.blkDev} ${dev.encrypted.label};\n"
         ) keyedEncDevs;
     };
   };
