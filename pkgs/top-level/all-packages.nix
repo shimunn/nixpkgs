@@ -388,6 +388,8 @@ with pkgs;
 
   cfn-nag = callPackage ../development/tools/cfn-nag { };
 
+  coil64 = callPackage ../applications/science/electronics/coil64 {};
+
   circumflex = callPackage ../applications/networking/circumflex { };
 
   citron = callPackage ../tools/misc/citron { };
