@@ -61,8 +61,8 @@ unpack() {
 
 apprun() {
 
-  SHA256=$(sha256sum "$APPIMAGE" | awk '{print $1}')
-  export APPDIR="${XDG_CACHE_HOME:-$HOME/.cache}/appimage-run/$SHA256"
+  BLAKE3_DIGEST=$(b3sum "$APPIMAGE" | awk '{print $1}')
+  export APPDIR="${XDG_CACHE_HOME:-$HOME/.cache}/appimage-run/$BLAKE3_DIGEST"
 
   #compatibility
   if [ -x "$APPDIR/squashfs-root" ]; then APPDIR="$APPDIR/squashfs-root"; fi

@@ -1,6 +1,7 @@
 { lib
 , bash
 , binutils-unwrapped
+, b3sum
 , coreutils
 , gawk
 , libarchive
@@ -18,6 +19,7 @@ rec {
     path = lib.makeBinPath [
       bash
       binutils-unwrapped
+      b3sum
       coreutils
       gawk
       libarchive
