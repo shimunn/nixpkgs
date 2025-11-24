@@ -140,7 +140,7 @@ in
             # if/when the bluez derivation is changed.
             args = [
               "-f"
-              "/etc/bluetooth/main.conf"
+              (lib.addContextFrom config.environment.etc."bluetooth/main.conf".source "/etc/bluetooth/main.conf")
             ] ++ optional hasDisabledPlugins "--noplugin=${concatStringsSep "," cfg.disabledPlugins}";
           in
           {
