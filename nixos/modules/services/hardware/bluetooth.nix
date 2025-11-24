@@ -64,6 +64,12 @@ in
       };
 
       package = mkPackageOption pkgs "bluez" { };
+      extraArgs = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = ["--experimental"];
+        description = "Extra arguments to be passed to the bluetooth daemon, in additon the config path";
+      };
 
       disabledPlugins = mkOption {
         type = types.listOf types.str;
@@ -141,7 +147,7 @@ in
             args = [
               "-f"
               (lib.addContextFrom config.environment.etc."bluetooth/main.conf".source "/etc/bluetooth/main.conf")
-            ] ++ optional hasDisabledPlugins "--noplugin=${concatStringsSep "," cfg.disabledPlugins}";
+            ] ++ cfg.extraArgs ++ optional hasDisabledPlugins "--noplugin=${concatStringsSep "," cfg.disabledPlugins}";
           in
           {
             wantedBy = [ "bluetooth.target" ];
